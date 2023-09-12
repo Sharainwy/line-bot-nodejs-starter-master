@@ -1,38 +1,44 @@
-/* eslint-disable no-path-concat */
 const express = require('express');
-const mongoose = require('mongoose');
-const app = express();
-// eslint-disable-next-line no-unused-vars
 const bodyParser = require('body-parser');
-const port = 3000;
+const MongoClient = require('mongodb').MongoClient;
+const cors = require('cors');
+const app = express();
+const port = process.env.PORT || 3000;
+const mongoURI = 'mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/';
 
-// เชื่อมต่อกับ MongoDB Atlas
-mongoose.connect('mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
+app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+  origin: 'https://linebeacon.000webhostapp.com', // แทนด้วย origin ของเว็บไซต์ที่คุณต้องการอนุญาตให้เรียกใช้งาน API ของคุณ
+}));
 
-const formDataSchema = {
-  name: String,
-  email: String,
-};
 
-const FormData = mongoose.model('FormData', formDataSchema);
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
+app.post('/save-profile-data', (req, res) => {
+  const data = req.body;
 
-// รับข้อมูลจากแบบฟอร์มและบันทึกลงใน MongoDB
-app.post('/', (req, res) => {
-  let newformData = new FormData({
-    name: req.body.name,
-    email: req.body.email,
+  MongoClient.connect(mongoURI, (err, client) => {
+    if (err) {
+      console.error('เกิดข้อผิดพลาดในการเชื่อมต่อกับ MongoDB:', err);
+      res.status(500).json({ error: 'เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล' });
+      return;
+    }
+
+    const db = client.db(); // แทน your-database-name ด้วยชื่อฐานข้อมูลของคุณ
+
+    db.collection('profiles').insertOne(data, (err, result) => {
+      if (err) {
+        console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูลใน MongoDB:', err);
+        res.status(500).json({ error: 'เกิดข้อผิดพลาดในการบันทึกข้อมูลในฐานข้อมูล' });
+      } else {
+        console.log('บันทึกข้อมูลใน MongoDB สำเร็จ');
+        res.status(200).json({ message: 'บันทึกข้อมูลสำเร็จ' });
+      }
+      client.close();
+    });
   });
-
-  newformData.save();
-  res.redirect('/');
 });
 
 app.listen(port, () => {
-  console.log(`เซิร์ฟเวอร์ทำงานที่ http://localhost:${port}`);
+  console.log(`เซิร์ฟเวอร์กำลังรอที่พอร์ต ${port}`);
 });
