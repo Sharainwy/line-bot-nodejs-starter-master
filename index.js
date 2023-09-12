@@ -2,14 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require("mongodb");
 const app = express();
-const cors = require('cors')
+//const cors = require('cors')
 const port = process.env.PORT || 3000;
 const mongoURI = 'mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/';
 
-app.use(cors())
+//app.use(cors())
 app.use(express.json());
 
-app.post('/save-profile-data',cors, (req, res) => {
+app.post('/save-profile-data', (req, res) => {
   const data = req.body;
 
   MongoClient.connect(mongoURI, (err, client) => {
