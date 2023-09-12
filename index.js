@@ -1,15 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require("mongodb");
+//const cors = require('cors');
 const app = express();
-//const cors = require('cors')
+
 const port = process.env.PORT || 3000;
 const mongoURI = 'mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/';
 
-//app.use(cors())
+
 app.use(express.json());
 
-app.post('/save-profile-data', (req, res) => {
+//app.use(cors());
+
+app.post('/save-profile-data',async (req, res) => {
   const data = req.body;
 
   MongoClient.connect(mongoURI, (err, client) => {
@@ -57,3 +60,6 @@ app.post('/users/create',cors , async(req, res) => {
 app.listen(port, () => {
   console.log(`เซิร์ฟเวอร์กำลังรอที่พอร์ต ${port}`);
 });
+
+
+
