@@ -1,20 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
-const cors = require('cors');
+const { MongoClient } = require("mongodb");
 const app = express();
+const cors = require('cors')
 const port = process.env.PORT || 3000;
 const mongoURI = 'mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/';
 
-app.use(bodyParser.json());
+app.use(cors())
+app.use(express.json());
 
-app.use(cors({
-  origin: 'https://linebeacon.000webhostapp.com', // แทนด้วย origin ของเว็บไซต์ที่คุณต้องการอนุญาตให้เรียกใช้งาน API ของคุณ
-}));
-
-
-
-app.post('/save-profile-data', (req, res) => {
+app.post('/save-profile-data',cors, (req, res) => {
   const data = req.body;
 
   MongoClient.connect(mongoURI, (err, client) => {
@@ -24,7 +19,7 @@ app.post('/save-profile-data', (req, res) => {
       return;
     }
 
-    const db = client.db('test'); // แทน your-database-name ด้วยชื่อฐานข้อมูลของคุณ
+    const db = client.db(); // แทน your-database-name ด้วยชื่อฐานข้อมูลของคุณ
 
     db.collection('profiles').insertOne(data, (err, result) => {
       if (err) {
@@ -38,6 +33,26 @@ app.post('/save-profile-data', (req, res) => {
     });
   });
 });
+
+app.post('/users/create',cors , async(req, res) => {
+  const user = req.body;
+  const client = new MongoClient(mongoURI);
+  await client.connect();
+  await client.db('mydb').collection('liff-user').insertOne({
+    userId: user.userId,
+    displayName: user.displayName,
+    firstname: user.displayName,
+    location: user.location,
+    picture: user.picture,
+    position: user.position
+  });
+  await client.close();
+  res.status(200).send({
+    "status": "ok",
+    "message": "User with ID = "+user.displayName+" is created",
+    "user": user
+  });
+})
 
 app.listen(port, () => {
   console.log(`เซิร์ฟเวอร์กำลังรอที่พอร์ต ${port}`);
