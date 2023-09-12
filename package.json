@@ -1,17 +1,23 @@
 {
-  "name": "line-liff",
+  "name": "linebeaconjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "beaconewithwss",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "sharainwy",
+  "keywords": [
+    "line",
+    "bot",
+    "messaging-api"
+  ],
+  "author": "Sharainwy",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-   
+    "@line/bot-sdk": "^6.2.1",
+    "express": "^4.16.3",
+    "mongodb": "^4.4.0",
+    "ws": "^8.13.0"
   }
 }
