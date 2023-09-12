@@ -24,7 +24,7 @@ app.post('/save-profile-data', (req, res) => {
       return;
     }
 
-    const db = client.db(); // แทน your-database-name ด้วยชื่อฐานข้อมูลของคุณ
+    const db = client.db('test'); // แทน your-database-name ด้วยชื่อฐานข้อมูลของคุณ
 
     db.collection('profiles').insertOne(data, (err, result) => {
       if (err) {
