@@ -19,7 +19,7 @@ const formDataSchema = {
 const FormData = mongoose.model('FormData', formDataSchema);
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + 'https://github.com/Sharainwy/line-bot-nodejs-starter-master/blob/main/index.html');
 });
 
 // รับข้อมูลจากแบบฟอร์มและบันทึกลงใน MongoDB
