@@ -10,7 +10,7 @@ const mongoURI = 'mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/';
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://liff-beacon.000webhostapp.com",
+    origin: "https://liff-beacon.000webhostapp.com","https://sharainwy.github.io/beacon_cpe.github.io", 
     
   }));
 
