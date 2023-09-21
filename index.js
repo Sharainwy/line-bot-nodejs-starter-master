@@ -10,7 +10,7 @@ const mongoURI = 'mongodb+srv://Sharainwy:Mindbnk48@shar.xu2urv6.mongodb.net/';
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://sharainwy.github.io/beacon_cpe.github.io/regis.html",
+    origin: "https://sharainwy.github.io/",
     
   }));
 
