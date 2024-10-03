@@ -40,26 +40,18 @@ app.use(
         "message": "User with ID = " + user.displayName + " is updated",
         "user": user
       });
-    } else {
-      // ถ้าไม่มี userId ให้ทำการเพิ่มข้อมูลผู้ใช้ใหม่
-      
-        user.userId,
-        user.displayName,
-        user.displayName,
-        user.picture,
-        user.position
-    };
+    } 
 
-      // else {
-      // // ถ้าไม่มี userId ให้ทำการเพิ่มข้อมูลผู้ใช้ใหม่
-      // await client.db('mydb').collection('liff-user').insertOne({
-      //   userId: user.userId,
-      //   displayName: user.displayName,
-      //   firstname: user.firstName,
-      //   location: user.location,
-      //   picture: user.picture,
-      //   position: user.position
-      // });
+      else {
+      // ถ้าไม่มี userId ให้ทำการเพิ่มข้อมูลผู้ใช้ใหม่
+      await client.db('mydb').collection('liff-user').insertOne({
+        userId: user.userId,
+        displayName: user.displayName,
+        firstname: user.firstName,
+        location: user.location,
+        picture: user.picture,
+        position: user.position
+      });
   
       await client.close();
       res.status(200).send({
